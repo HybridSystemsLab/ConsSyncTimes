@@ -66,13 +66,15 @@ if eigA1high > 1
     error('eigA1high > 1')
 end
 
-cvx_begin sdp quiet
+cvx_begin sdp 
     variable P1(size(Ag)) symmetric 
+    variable Q1(size(Ag)) symmetric 
     minimize (0)
     subject to
-    A1high'*P1*A1high - P1 <= 0;
-    A1low'*P1*A1low - P1 <= 0;
+    A1high'*P1*A1high - P1 <= -.1*Q1;
+    A1low'*P1*A1low - P1 <= -.1*Q1;
     P1 >= eye(size(Ag));
+    Q1 >= eye(size(Ag));
 cvx_end
 
 
